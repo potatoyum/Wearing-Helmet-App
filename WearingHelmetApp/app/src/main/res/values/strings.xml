@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">안전모 쓰자</string>
-    <string name="connectingwithBT">안전모 보관함과 연결하고 있어요</string>
-    <string name="TakingOut">보관함에서 안전모를 꺼내 착용해주세요</string>
+    <string name="connectingWithBT">안전모 보관함과 연결하고 있어요</string>
+    <string name="takingOut">보관함에서 안전모를 꺼내 착용해주세요</string>
+    <string name="checkingWearing">안전모 착용을 확인하고 있어요</string>
+    <string name="completedCheck">안전모 착용 완료 </string>
+    <string name="canRide">킥보드 탑승하기</string>
+    <string name="returnPlease">안전모를 반납해주세요</string>
+    <string name="returnCompleted">반납 완료</string>
 </resources>
