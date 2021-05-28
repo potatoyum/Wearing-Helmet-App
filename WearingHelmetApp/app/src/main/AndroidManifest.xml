@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.wearinghelmetapp">
 
     <application
@@ -9,9 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WearingHelmetApp">
-        <activity android:name=".ReturnActivity"></activity>
+        <activity android:name=".ConnectActivity"></activity>
+        <activity
+            android:name=".ScanActivity"
+            android:screenOrientation="fullSensor" />
+        <activity android:name=".ReturnActivity" />
         <activity android:name=".CheckWearingActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

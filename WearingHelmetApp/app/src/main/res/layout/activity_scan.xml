@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/zxing_barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:zxing_scanner_layout="@layout/custom_barcode_scanner">
+    </com.journeyapps.barcodescanner.DecoratedBarcodeView>
+
+
+    <ImageButton
+        android:id="@+id/flashlight_btn"
+        android:onClick="switchFlashlight"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_flashlight_background"
+        android:src="@drawable/flash_off"
+        android:scaleType="fitXY"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="사각 테두리안에 보관함에 부착된 QR코드를 인식해 주세요"
+        android:layout_above="@+id/OwnHelmetBtn"
+        android:layout_marginBottom="100dp"
+        android:textColor="@color/white"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/OwnHelmetBtn"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        app:cornerRadius="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@drawable/btn_selector_check_wearing"
+        android:layout_marginBottom="20dp"
+        app:icon="@drawable/ic_arrow_forward"
+        android:text="@string/usingOwnHelmet"
+        android:textSize="24dp"
+        app:iconGravity="end"
+        android:enabled="true">
+    </com.google.android.material.button.MaterialButton>
+</RelativeLayout>

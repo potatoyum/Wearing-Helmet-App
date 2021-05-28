@@ -7,4 +7,5 @@
     <string name="canRide">킥보드 탑승하기</string>
     <string name="returnPlease">안전모를 반납해주세요</string>
     <string name="returnCompleted">반납 완료</string>
+    <string name="usingOwnHelmet">헬멧을 가지고 있어요</string>
 </resources>
