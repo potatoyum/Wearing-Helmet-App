@@ -16,12 +16,11 @@ public class ScanActivity extends Activity implements DecoratedBarcodeView.Torch
     private BackProgressCloseHandler backProgressCloseHandler;
     private Boolean switchFlashlightButtonCheck;
     private ImageButton switchFlashlightBtn;
-
+    public static final int ALREADY_HAS=9;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
-
         switchFlashlightButtonCheck = true;
 
         backProgressCloseHandler = new BackProgressCloseHandler(this);
