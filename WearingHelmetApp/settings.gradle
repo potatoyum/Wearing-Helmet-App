@@ -1,2 +1,8 @@
+include ':lib_interpreter'
+include ':lib_task_api'
+include ':HelmetDetection'
 include ':app'
+project(':HelmetDetection').projectDir = new File('/Users/slwnskq/StudioProjects/Wearing-Helmet-App/WearingHelmetApp/HelmetDetection')
+project(':lib_task_api').projectDir = new File('/Users/slwnskq/StudioProjects/Wearing-Helmet-App/WearingHelmetApp/lib_task_api')
+project(':lib_interpreter').projectDir = new File('/Users/slwnskq/StudioProjects/Wearing-Helmet-App/WearingHelmetApp/lib_interpreter')
 rootProject.name = "WearingHelmetApp"
