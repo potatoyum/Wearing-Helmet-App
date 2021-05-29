@@ -67,7 +67,7 @@ public class Bluetooth {
 
     public void connectBluetoothDevice()  //인자로 디바이스명 건네주기
     {
-        btArrayAdapter.clear();
+        //btArrayAdapter.clear();
         if(deviceAddressArray!=null && !deviceAddressArray.isEmpty()){ deviceAddressArray.clear(); }
 
         devices = bluetoothAdapter.getBondedDevices();   //디바이스 목록들 불러오기..
@@ -77,11 +77,11 @@ public class Bluetooth {
                 deviceName = device.getName();               //이름 저장
                 String deviceHardwareAddress = device.getAddress(); // MAC address 저장
 
-                btArrayAdapter.add(deviceName);                  //각각 추가하기
+                //btArrayAdapter.add(deviceName);                  //각각 추가하기
                 deviceAddressArray.add(deviceHardwareAddress);
             }
         }
-        BluetoothDevice bludtoothDevice;
+        BluetoothDevice bludtoothDevice = null;
 
         for (BluetoothDevice tempDevice : devices){     //device목록에 들어가 블루투스 중에 deviceName과 일치하는 블루투스가 있다면 알아내기
             if (devicename.equals(tempDevice.getName()))
@@ -97,7 +97,7 @@ public class Bluetooth {
     
         try {
 
-            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+            bluetoothSocket = bludtoothDevice.createRfcommSocketToServiceRecord(uuid);
     
             bluetoothSocket.connect();
             Log.d("mTag", "connected");
