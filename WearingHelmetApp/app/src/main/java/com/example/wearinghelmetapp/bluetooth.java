@@ -36,6 +36,7 @@ public class bluetooth  {
         if(bluetoothAdapter.isEnabled()) { // 블루투스가 활성화 상태 (기기에 블루투스가 켜져있음)
 
             connectBluetoothDevice("블루투스 모듈명 필요"); // 블루투스 디바이스 연결함수 호출             
+            connectBluetoothDevice(devicename); // 블루투스 디바이스 연결함수 호출             
         }
 
         else { // 블루투스가 비 활성화 상태이면
@@ -62,6 +63,7 @@ public class bluetooth  {
                 return;
             } 
             connectBluetoothDevice("블루투스모듈명 필요");  //블루투스 디바이스 선택함수 호출
+            connectBluetoothDevice(devicename);  //블루투스 디바이스 선택함수 호출
         } 
  
     }
