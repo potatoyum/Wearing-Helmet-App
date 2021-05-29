@@ -49,4 +49,25 @@
         app:layout_constraintTop_toBottomOf="@+id/bt"
 
         app:layout_constraintVertical_bias="0.169" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        app:cornerRadius="100dp"
+        android:backgroundTint="@drawable/btn_selector_check_wearing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt"
+        app:layout_constraintVertical_bias="0.9"
+
+        app:icon="@drawable/ic_arrow_forward"
+        android:text="@string/canRide"
+        android:paddingLeft="40dp"
+        android:textSize="24dp"
+        app:iconGravity="end"
+        android:enabled="true"
+        >
+    </com.google.android.material.button.MaterialButton>
 </androidx.constraintlayout.widget.ConstraintLayout>
