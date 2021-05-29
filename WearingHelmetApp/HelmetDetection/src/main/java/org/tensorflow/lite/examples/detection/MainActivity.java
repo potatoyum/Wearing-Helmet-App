@@ -51,6 +51,24 @@ public class MainActivity extends AppCompatActivity {
             }
             if(resultCode == ScanActivity.ALREADY_HAS){
                 //TODO 2. 이미 보관함을 가진 경우 바로 안전모 감지 액티비티로 이동
+
+            }
+        }
+        //안전모 감지 액티비티의 결괏값,
+        if(requestCode==DetectorActivity.REQUEST_CODE){
+            if(requestCode==DetectorActivity.DETECTED){
+                //안전모가 감지된 경우 결괏값 리턴 후 종료
+                finishActivity(DetectorActivity.DETECTED);
+            }
+            if(requestCode==DetectorActivity.TIME_OUT){
+                //안전모가 시간안에 감지되지 않은 경우
+                finishActivity(DetectorActivity.TIME_OUT);
+            }
+            if(requestCode==DetectorActivity.ERROR){
+                //에러 발생 경우 다시시도
+                Intent detectorIntent =new Intent(this,DetectorActivity.class);
+                detectorIntent.putExtra(DetectorActivity.TIME,20);
+                startActivityForResult(detectorIntent,DetectorActivity.REQUEST_CODE);
             }
         }
     }
