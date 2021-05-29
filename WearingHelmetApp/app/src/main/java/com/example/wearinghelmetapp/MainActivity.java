@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume(){
         super.onResume();
-
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(ScanActivity.class);
         integrator.initiateScan();
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode,resultCode,intent);
-
         Log.d("onActivityResult", "onActivityResult: .");
         if (resultCode == Activity.RESULT_OK) {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
