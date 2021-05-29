@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wearinghelmetapp">
 
-
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
@@ -13,20 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WearingHelmetApp">
-        <activity android:name=".ReturnActivity"></activity>
-        <activity android:name=".CheckWearingActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ConnectActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ReturnActivity" />
+        <activity android:name=".CheckWearingActivity" />
+        <activity android:name=".MainActivity">
+        </activity>
     </application>
-    
-
-
-출처: https://yeolco.tistory.com/80 [열코의 프로그래밍 일기]
-
 
 </manifest>
