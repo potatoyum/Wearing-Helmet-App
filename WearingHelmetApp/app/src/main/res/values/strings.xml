@@ -8,4 +8,6 @@
     <string name="returnPlease">안전모를 반납해주세요</string>
     <string name="returnCompleted">반납 완료</string>
     <string name="usingOwnHelmet">헬멧을 가지고 있어요</string>
+    <string name="warning_return">"반납하지 않을 시 \n
+        벌금이 부과됩니다"</string>
 </resources>
