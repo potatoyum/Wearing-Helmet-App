@@ -10,6 +10,7 @@
     android:orientation="vertical"
     android:padding="8dp"
     app:behavior_hideable="true"
+    android:visibility="gone"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
