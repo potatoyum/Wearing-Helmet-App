@@ -11,7 +11,7 @@ import java.util.IllegalFormatException;
 
 public class BluetoothConnectActivity extends AppCompatActivity {
     public static final String MODULE_NAME="MODULE_NAME",REQUEST_TYPE="REQUEST_TYPE";
-    public static final int OPEN_CASE=0,CHECK_LOCK=1;
+    public static final int OPEN_CASE=0,CHECK_LOCK=1, BLUETOOTH_REQUEST_CODE=1002;
     @Override
     protected void onCreate(Bundle savedInstanceState) throws IllegalFormatException {
         super.onCreate(savedInstanceState);
