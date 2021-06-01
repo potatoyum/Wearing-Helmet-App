@@ -25,9 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void onResume(){
         super.onResume();
-        /**
-         * QR코드 인식 액티비티 실행
-         */
+        //QR코드 인식 액티비티 실행
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(ScanActivity.class);
         integrator.initiateScan();
@@ -36,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode,resultCode,intent);
         Log.d("onActivityResult", "onActivityResult: .");
-        /**
-         * QR코드 인식 결과 읽은 메시지를 포함한 결괏값 리턴
-         */
+        //QR코드 인식 결과 읽은 메시지를 포함한 결괏값 리턴
         if (requestCode==IntentIntegrator.REQUEST_CODE){
             if (resultCode == Activity.RESULT_OK) {
                 IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
@@ -47,10 +43,28 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("onActivityResult", "onActivityResult: ." + re);
                 Toast.makeText(this, re, Toast.LENGTH_LONG).show();
                 //TODO 1. QR코드를 통해서 받은 블루투스 모듈명으로 보관함에 해제 요청을 해야함
-                //TODO 1-1. 해제 성공 신호를 받은 경우 안전모 감지 액티비티로 이동
+                //TODO 2. 해제 성공 신호를 받은 경우 안전모 감지 액티비티로 이동
             }
             if(resultCode == ScanActivity.ALREADY_HAS){
-                //TODO 2. 이미 보관함을 가진 경우 바로 안전모 감지 액티비티로 이동
+                //TODO 3. 이미 보관함을 가진 경우 바로 안전모 감지 액티비티로 이동
+
+            }
+        }
+        //안전모 감지 액티비티의 결괏값,
+        if(requestCode==DetectorActivity.REQUEST_CODE){
+            if(requestCode==DetectorActivity.DETECTED){
+                //안전모가 감지된 경우 결괏값 리턴 후 종료
+                finishActivity(DetectorActivity.DETECTED);
+            }
+            if(requestCode==DetectorActivity.TIME_OUT){
+                //안전모가 시간안에 감지되지 않은 경우
+                finishActivity(DetectorActivity.TIME_OUT);
+            }
+            if(requestCode==DetectorActivity.ERROR){
+                //에러 발생 경우 다시시도
+                Intent detectorIntent =new Intent(this,DetectorActivity.class);
+                detectorIntent.putExtra(DetectorActivity.TIME,20);
+                startActivityForResult(detectorIntent,DetectorActivity.REQUEST_CODE);
             }
         }
     }

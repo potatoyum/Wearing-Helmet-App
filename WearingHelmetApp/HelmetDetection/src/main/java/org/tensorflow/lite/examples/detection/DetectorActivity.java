@@ -48,6 +48,9 @@ import org.tensorflow.lite.examples.detection.tracking.MultiBoxTracker;
  */
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
+  //request, result code
+  public static final int REQUEST_CODE=1001,DETECTED=1002,TIME_OUT=1003,ERROR=1004;
+  public static final String TIME="TIME";
 
   // Configuration values for the prepackaged SSD model.
   private static final int TF_OD_API_INPUT_SIZE = 300;
