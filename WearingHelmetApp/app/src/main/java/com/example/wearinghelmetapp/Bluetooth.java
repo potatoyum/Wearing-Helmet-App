@@ -118,7 +118,6 @@ public class Bluetooth {
     
         try {
 
-            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
             bluetoothSocket = bludtoothDevice.createRfcommSocketToServiceRecord(uuid);
     
             bluetoothSocket.connect();
