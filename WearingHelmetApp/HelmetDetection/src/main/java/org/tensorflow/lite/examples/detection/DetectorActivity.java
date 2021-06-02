@@ -27,12 +27,16 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.tensorflow.lite.examples.detection.customview.OverlayView;
 import org.tensorflow.lite.examples.detection.customview.OverlayView.DrawCallback;
 import org.tensorflow.lite.examples.detection.env.BorderedText;
@@ -50,6 +54,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private static final Logger LOGGER = new Logger();
   //request, result code
   public static final int REQUEST_CODE=1001,DETECTED=1002,TIME_OUT=1003,ERROR=1004;
+  private static final double decision_value=0.93;
   public static final String TIME="TIME";
 
   // Configuration values for the prepackaged SSD model.
@@ -84,9 +89,23 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private MultiBoxTracker tracker;
 
   private BorderedText borderedText;
-
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {
+    /**
+     * set detector timer
+     */
+    Timer timer=new Timer();
+    TimerTask timerTask=new TimerTask() {
+      @Override
+      public void run() {
+        Log.i("DetectorActivity","time out");
+        setResult(TIME_OUT);
+        finish();
+      }
+    };
+    int waiting_time=getIntent().getIntExtra(TIME,10000);
+    timer.schedule(timerTask,waiting_time);
+
     final float textSizePx =
         TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_DIP, getResources().getDisplayMetrics());
@@ -202,6 +221,13 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 new ArrayList<Detector.Recognition>();
 
             for (final Detector.Recognition result : results) {
+
+              if(result.getId().equals("with helmet")&&result.getConfidence()>decision_value){
+                Log.i("DetectorActivity","DETECTED");
+                setResult(DETECTED);
+                finish();
+              }
+
               final RectF location = result.getLocation();
               if (location != null && result.getConfidence() >= minimumConfidence) {
                 canvas.drawRect(location, paint);
