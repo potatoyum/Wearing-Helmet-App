@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,8 @@ import android.widget.ArrayAdapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
@@ -37,18 +41,20 @@ public class Bluetooth {
     public Bluetooth(String name)
     {
         devicename=name;
+
         
     }
 
     public boolean activate()
     {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter(); // 블루투스 어댑터를 디폴트 어댑터로 설정
+
         //btArrayAdapter= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        deviceAddressArray= new ArrayList<>();
+        //deviceAddressArray= new ArrayList<>();
         //listView.setAdapter(btArrayAdapter);
 
         if(bluetoothAdapter.isEnabled()) { // 블루투스가 활성화 상태 (기기에 블루투스가 켜져있음)
-
+            bluetoothAdapter.startDiscovery();
             return true;
         }
 
@@ -56,42 +62,32 @@ public class Bluetooth {
             return false;
 
 
-
         }
 
     }
 
 
- 
+
+    //블루투스 검색결과 BroadcastReceiver
 
 
-    public void connectBluetoothDevice()  //인자로 디바이스명 건네주기
+
+    public void connectBluetoothDevice(BluetoothDevice dv) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException  //인자로 디바이스명 건네주기
     {
-        btArrayAdapter.clear();
-        if(deviceAddressArray!=null && !deviceAddressArray.isEmpty()){ deviceAddressArray.clear(); }
+        bluetoothDevice=dv;
+        if (bluetoothDevice.getName().equals(devicename)){
+            Method method = bluetoothDevice.getClass().getMethod("createBond", (Class[]) null);
+            method.invoke(bluetoothDevice, (Object[]) null);
 
-        devices = bluetoothAdapter.getBondedDevices();   //디바이스 목록들 불러오기..
-        String deviceName;
-        if (devices.size() > 0) {
-            for (BluetoothDevice device : devices) {     
-                deviceName = device.getName();               //이름 저장
-                String deviceHardwareAddress = device.getAddress(); // MAC address 저장
-
-                btArrayAdapter.add(deviceName);                  //각각 추가하기
-                deviceAddressArray.add(deviceHardwareAddress);
-            }
+            Log.d("mTag", "connected00");
         }
-        BluetoothDevice bludtoothDevice;
 
-        for (BluetoothDevice tempDevice : devices){     //device목록에 들어가 블루투스 중에 deviceName과 일치하는 블루투스가 있다면 알아내기
-            if (devicename.equals(tempDevice.getName()))
-            {
-                bludtoothDevice = tempDevice;
-                break;
-            }
-        }
-       
 
+
+
+
+
+    /*
         //연결해주기
         UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
     
@@ -118,7 +114,7 @@ public class Bluetooth {
             e.printStackTrace();
     
         }
-
+        */
         
     
     }
