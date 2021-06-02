@@ -74,12 +74,37 @@ public class Bluetooth {
 
     public void connectBluetoothDevice(BluetoothDevice dv) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException  //인자로 디바이스명 건네주기
     {
+<<<<<<< HEAD
         bluetoothDevice=dv;
         if (bluetoothDevice.getName().equals(devicename)){
             Method method = bluetoothDevice.getClass().getMethod("createBond", (Class[]) null);
             method.invoke(bluetoothDevice, (Object[]) null);
 
             Log.d("mTag", "connected00");
+=======
+        //btArrayAdapter.clear();
+        if(deviceAddressArray!=null && !deviceAddressArray.isEmpty()){ deviceAddressArray.clear(); }
+
+        devices = bluetoothAdapter.getBondedDevices();   //디바이스 목록들 불러오기..
+        String deviceName;
+        if (devices.size() > 0) {
+            for (BluetoothDevice device : devices) {     
+                deviceName = device.getName();               //이름 저장
+                String deviceHardwareAddress = device.getAddress(); // MAC address 저장
+
+                //btArrayAdapter.add(deviceName);                  //각각 추가하기
+                deviceAddressArray.add(deviceHardwareAddress);
+            }
+        }
+        BluetoothDevice bludtoothDevice = null;
+
+        for (BluetoothDevice tempDevice : devices){     //device목록에 들어가 블루투스 중에 deviceName과 일치하는 블루투스가 있다면 알아내기
+            if (devicename.equals(tempDevice.getName()))
+            {
+                bludtoothDevice = tempDevice;
+                break;
+            }
+>>>>>>> 9a1c04ccf313ddb7ca0783f3de1540997fc8e773
         }
 
 
@@ -94,6 +119,7 @@ public class Bluetooth {
         try {
 
             bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+            bluetoothSocket = bludtoothDevice.createRfcommSocketToServiceRecord(uuid);
     
             bluetoothSocket.connect();
             Log.d("mTag", "connected");
