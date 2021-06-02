@@ -13,6 +13,8 @@ import com.example.wearinghelmetapp.ScanActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.tensorflow.lite.examples.detection.tflite.Detector;
+
 import java.util.IllegalFormatFlagsException;
 
 /**
@@ -21,13 +23,11 @@ import java.util.IllegalFormatFlagsException;
  */
 public class MainActivity extends AppCompatActivity {
     public static final int QR_REQUEST_CODE=1;
+    private final int helmet_detector_waiting_time_ms=60000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-    protected void onResume(){
-        super.onResume();
         //QR코드 인식 액티비티 실행
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(ScanActivity.class);
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             else if(resultCode == ScanActivity.ALREADY_HAS){
                 //이미 보관함을 가진 경우 바로 안전모 감지 액티비티로 이동
                 Intent detectorIntent=new Intent(this,DetectorActivity.class);
+                detectorIntent.putExtra(DetectorActivity.TIME,helmet_detector_waiting_time_ms);
                 startActivityForResult(detectorIntent,DetectorActivity.REQUEST_CODE);
             }
             else{
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode==BluetoothConnectActivity.OPEN_SUCCESS){
                 // 해제 성공 신호를 받은 경우 안전모 감지 액티비티로 이동
                 Intent detectorIntent=new Intent(this,DetectorActivity.class);
+                detectorIntent.putExtra(DetectorActivity.TIME,helmet_detector_waiting_time_ms);
                 startActivityForResult(detectorIntent,DetectorActivity.REQUEST_CODE);
             }
             else if(resultCode==BluetoothConnectActivity.OPEN_ERROR){

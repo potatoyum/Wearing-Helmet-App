@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.content.pm.PackageManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.wearinghelmetapp.Handler.BackProgressCloseHandler;
+import com.google.android.material.button.MaterialButton;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
@@ -16,6 +18,7 @@ public class ScanActivity extends Activity implements DecoratedBarcodeView.Torch
     private BackProgressCloseHandler backProgressCloseHandler;
     private Boolean switchFlashlightButtonCheck;
     private ImageButton switchFlashlightBtn;
+    private MaterialButton ownHelmetButton;
     public static final int ALREADY_HAS=9;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,14 @@ public class ScanActivity extends Activity implements DecoratedBarcodeView.Torch
         backProgressCloseHandler = new BackProgressCloseHandler(this);
 
         switchFlashlightBtn = (ImageButton)findViewById(R.id.flashlight_btn);
+        ownHelmetButton=(MaterialButton)findViewById(R.id.OwnHelmetBtn);
+        ownHelmetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(ALREADY_HAS);
+                finish();
+            }
+        });
 
         if (!hasFlash()) { //라이트가 없는 경우 버튼 안 보이게
             switchFlashlightBtn.setVisibility(View.GONE);
