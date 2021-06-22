@@ -1,6 +1,3 @@
-include ':lib_interpreter'
-include ':lib_task_api'
-include ':HelmetDetection'
 include ':app'
 rootProject.name = "WearingHelmetApp"
 

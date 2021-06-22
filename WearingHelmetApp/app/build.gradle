@@ -1,18 +1,11 @@
-plugins {
-    id 'com.android.library'
-}
-repositories {
-    google()
-    jcenter()
-    mavenLocal()
-}
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
