@@ -12,7 +12,7 @@ import com.example.wearinghelmetapp.BluetoothConnect.DeviceScanActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-public class ScanMainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +25,16 @@ public class ScanMainActivity extends AppCompatActivity {
 
 
         IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setOrientationLocked(true);
         integrator.setCaptureActivity(ScanActivity.class);
         integrator.initiateScan();
-
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode,resultCode, intent);
+
         if (resultCode == Activity.RESULT_OK) {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
             String re = scanResult.getContents(); //스캔한 값
@@ -43,12 +44,18 @@ public class ScanMainActivity extends AppCompatActivity {
             Toast.makeText(this, re, Toast.LENGTH_LONG).show();
 
             Intent scanIntent = new Intent(getApplicationContext(), DeviceScanActivity.class);
-
             scanIntent.putExtra(DeviceScanActivity.EXTRAS_DEVICE_ADDRESS, re); // 인텐트로 스캔액티비티로 값 넘김
 
-            startActivity(intent);
+            startActivity(scanIntent);
             finish();
         }
+        else if (resultCode == 9){
+            Intent scanIntent = new Intent(getApplicationContext(), ReturnActivity.class);
+
+            startActivity(scanIntent);
+            finish();
+        }
+
     }
 
     @Override

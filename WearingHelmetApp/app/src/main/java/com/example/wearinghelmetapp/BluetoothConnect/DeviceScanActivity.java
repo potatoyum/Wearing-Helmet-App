@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -63,12 +64,15 @@ public class DeviceScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
         //getActionBar().setTitle(R.string.title_devices);
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.myLooper());
 
         final Intent intent = getIntent();
-        mDeviceAddr = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        mDeviceAddr = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS); //qr 인식한 mac 주소
 
-        ActivityCompat.requestPermissions(this, //위치 퍼미션 허용용
+        Log.d("aaa",mDeviceAddr.toString());
+
+
+        ActivityCompat.requestPermissions(this, //위치 퍼미션 허용
                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
@@ -198,8 +202,6 @@ public class DeviceScanActivity extends AppCompatActivity {
                 }
             }, SCAN_PERIOD);
 
-            Log.d("aaa","start");
-            Log.d("aaa",mBluetoothAdapter.toString());
             mScanning = true;
             mBluetoothAdapter.getBluetoothLeScanner().startScan(mLeScanCallback);
         } else {
