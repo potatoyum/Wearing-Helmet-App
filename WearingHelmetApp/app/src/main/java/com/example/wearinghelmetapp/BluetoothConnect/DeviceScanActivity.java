@@ -152,7 +152,7 @@ public class DeviceScanActivity extends AppCompatActivity {
         // Initializes list view adapter.
         //mLeDeviceListAdapter = new LeDeviceListAdapter();
        // setListAdapter(mLeDeviceListAdapter);
-        scanLeDevice(true);
+        //scanLeDevice(true);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class DeviceScanActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        scanLeDevice(false);
+        //scanLeDevice(false);
         //mLeDeviceListAdapter.clear();
     }
 /*
@@ -197,7 +197,7 @@ public class DeviceScanActivity extends AppCompatActivity {
                 public void run() {
                     Log.d("aaa","stop");
                     mScanning = false;
-                    mBluetoothAdapter.getBluetoothLeScanner().startScan(mLeScanCallback);
+                    mBluetoothAdapter.getBluetoothLeScanner().stopScan(mLeScanCallback);
                     invalidateOptionsMenu();
                 }
             }, SCAN_PERIOD);
@@ -206,7 +206,7 @@ public class DeviceScanActivity extends AppCompatActivity {
             mBluetoothAdapter.getBluetoothLeScanner().startScan(mLeScanCallback);
         } else {
             mScanning = false;
-            mBluetoothAdapter.getBluetoothLeScanner().startScan(mLeScanCallback);
+            mBluetoothAdapter.getBluetoothLeScanner().stopScan(mLeScanCallback);
         }
         invalidateOptionsMenu();
     }
@@ -291,7 +291,9 @@ public class DeviceScanActivity extends AppCompatActivity {
                 }
                 }
 
-                @Override public void onScanFailed ( int errorCode) { }
+                @Override public void onScanFailed ( int errorCode) {
+                    Log.d("aaa", String.valueOf(errorCode));
+                }
 
 
                 private void processResult ( final ScanResult result) {
@@ -309,7 +311,7 @@ public class DeviceScanActivity extends AppCompatActivity {
                                 final Intent intent = new Intent(getApplicationContext(), DeviceControlActivity.class);
                                 intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, result.getDevice().getName());
                                 intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, result.getDevice().getAddress());
-                                if (mScanning) {
+                                if (!mScanning) {
                                     mBluetoothAdapter.getBluetoothLeScanner().startScan(mLeScanCallback);
                                     mScanning = false;
                                 }
