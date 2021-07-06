@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">안전모 쓰자</string>
+    <string name="connectingWithBT">안전모 보관함과 연결하고 있어요</string>
+    <string name="takingOut">보관함에서 안전모를 꺼내 착용해주세요</string>
+    <string name="checkingWearing">안전모 착용을 확인하고 있어요</string>
+    <string name="completedCheck">안전모 착용 완료 </string>
+    <string name="canRide">킥보드 탑승하기</string>
+    <string name="returnPlease">안전모를 반납해주세요</string>
+    <string name="returnCompleted">반납 완료</string>
+    <string name="please_try">시도해보세요</string>   #activity_take_error에 쓰이는 것
+    <string name="info1">1.카메라 렌즈를 닦아주세요.</string>
+    <string name="info2">2.정면을 똑바로 응시하여 주세요.</string>
+    <string name="info3">3.불빛이 있는 곳에서 찍어주세요. </string>
+    <string name="again">다시 시도하기 </string>
+    <string name="provebyphoto">사진으로 인증하기</string>
+    <string name="contents">"사진으로 인증하기"란 사진을 서버에 보내 인증하는 방식입니다. 계속 오류가 나는 경우 이 방법을 시도해보세요.</string>
+
+</resources>

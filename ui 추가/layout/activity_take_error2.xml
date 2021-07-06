@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CheckWearingActivity">
+
+    <TextView
+        android:id="@+id/please_try"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:text="@string/please_try"
+        android:textColor="@color/black"
+        android:textSize="17spsp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.063" />
+
+    <TextView
+        android:id="@+id/info_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info1"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.194"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/please_try"
+        app:layout_constraintVertical_bias="0.068" />
+
+    <TextView
+        android:id="@+id/info_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info2"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_1"
+        app:layout_constraintVertical_bias="0.054" />
+
+    <TextView
+        android:id="@+id/info_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info3"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.291"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_2"
+        app:layout_constraintVertical_bias="0.046" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/again"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@drawable/btn_selector_check_wearing"
+        android:enabled="true"
+        android:paddingLeft="40dp"
+        android:text="@string/again"
+        android:textSize="24dp"
+        app:cornerRadius="100dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="end"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_3"
+        app:layout_constraintVertical_bias="0.376"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/prove_by_photo"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@drawable/btn_selector_check_wearing"
+        android:enabled="true"
+        android:paddingLeft="40dp"
+        android:text="@string/provebyphoto"
+        android:textSize="24dp"
+        app:cornerRadius="100dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/again"
+        app:layout_constraintVertical_bias="0.102"></com.google.android.material.button.MaterialButton>
+
+    <TextView
+        android:layout_width="352dp"
+        android:layout_height="107dp"
+        android:text="@string/contents"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prove_by_photo"
+        app:layout_constraintVertical_bias="0.28" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
