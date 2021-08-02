@@ -43,6 +43,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.wearinghelmetapp.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -372,10 +373,19 @@ public class DeviceScanActivity extends AppCompatActivity {
                     }
                 }
                 BluetoothGattService bluetoothGattService=gatt.getService(UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb"));
-                BluetoothGattCharacteristic bluetoothGattCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
-                Log.i(TAG, "onServicesDiscovered character: "+bluetoothGattCharacteristic.toString());
-                bluetoothGattCharacteristic.setValue("bleCommand".getBytes());
-                gatt.readCharacteristic(bluetoothGattCharacteristic);
+                BluetoothGattCharacteristic writeCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
+                BluetoothGattCharacteristic readCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
+                if((writeCharacteristic.getProperties() & (BluetoothGattCharacteristic.PROPERTY_WRITE +
+                        BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) ==0) {
+                    Log.i(TAG, "onServicesDiscovered properties: cannot read and write");
+                }
+                else{
+                    Log.i(TAG, "onServicesDiscovered properties: can read and write");
+                }
+                writeCharacteristic.setValue("999".getBytes());
+                gatt.writeCharacteristic(writeCharacteristic);
+                gatt.readCharacteristic(readCharacteristic);
+                gatt.setCharacteristicNotification(readCharacteristic,true);
 
             } else {
                 Log.i(TAG, "onServicesDiscovered received: " + status);
@@ -397,7 +407,7 @@ public class DeviceScanActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
-            Log.i(TAG, "onCharacteristicChanged : " );
+            Log.i(TAG, "onCharacteristicChanged : " +characteristic.getValue()[0]);
         }
     };
 
