@@ -19,8 +19,10 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +44,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.wearinghelmetapp.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -289,14 +292,6 @@ public class DeviceScanActivity extends AppCompatActivity {
     }
 */
 
-    private boolean alreadySend;
-    private void sendCommandToBLE(BluetoothDevice device,String bleCommand){
-        if(!alreadySend){
-            alreadySend=true;
-            BluetoothGatt bluetoothGatt=device.connectGatt(this,true,bluetoothGattCallback);
-
-        }
-    }
     // Device scan callback.
     private ScanCallback mLeScanCallback =
             new ScanCallback() {
@@ -325,11 +320,62 @@ public class DeviceScanActivity extends AppCompatActivity {
                             Log.d("processResult",result.getDevice().getName() + " "+result.getDevice().getAddress());
                             if(result.getDevice().getAddress().toString().equals(mDeviceAddr)){
                                 sendCommandToBLE(result.getDevice(),bleCommand);
+                                scanLeDevice(false);
                             }
 
                         }
                     });
                 }
+    };
+    /**
+     * @author JAESEONG LEE, lee01042000@gmail.com
+     */
+    private boolean alreadySend;
+    private void sendCommandToBLE(BluetoothDevice device,String bleCommand){
+        if(!alreadySend){
+            alreadySend=true;
+            //일일이 핀넘버 넣는게 귀찮아서 broadcastReceiver로 페어링 요청 발생할때 미리 잡아서 코드로 비밀번호 넣도록 처리했습니다
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST);
+            registerReceiver(mPairingRequestReceiver, filter);
+            //connectGatt를 실행하기전 페어링을 진행해야 데이터 전송이 원활함
+            if(pairDevice(device)){// 페어링 성공시
+                Log.d(TAG, "Connect gatt start.");
+                device.connectGatt(this,true,bluetoothGattCallback);
+            }
+
+        }
+    }
+    private boolean pairDevice(BluetoothDevice device) {
+        try {
+            Log.i(TAG, "Start Pairing... with: " + device.getName());
+            device.createBond();
+            Log.i(TAG, "Pairing finished.");
+            return true;
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+            return false;
+        }
+    }
+    //페어링요청 발생시 자동 페어링하는 브로드캐스트 리시버
+    private final BroadcastReceiver mPairingRequestReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
+                try {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    String pin="000000";
+                    //the pin in case you need to accept for an specific pin
+                    Log.d(TAG, "Start Auto Pairing. PIN = " + pin);
+                    byte[] pinBytes;
+                    pinBytes = pin.getBytes("UTF-8");
+                    device.setPin(pinBytes);
+                    //device.setPairingConfirmation(true);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error occurs when trying to auto pair");
+                    e.printStackTrace();
+                }
+            }
+        }
     };
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -342,6 +388,8 @@ public class DeviceScanActivity extends AppCompatActivity {
     public final static String EXTRA_DATA =
             "com.example.bluetooth.le.EXTRA_DATA";
     private final static String TAG = "BLE_GATT";
+    private BluetoothGattCharacteristic writeCharacteristic;
+    private BluetoothGattCharacteristic readCharacteristic;
     private BluetoothGattCallback bluetoothGattCallback=new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -356,7 +404,6 @@ public class DeviceScanActivity extends AppCompatActivity {
                 Log.i(TAG, "onConnectionStateChange : Disconnected from GATT server.");
             }
         }
-
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
@@ -373,8 +420,8 @@ public class DeviceScanActivity extends AppCompatActivity {
                     }
                 }
                 BluetoothGattService bluetoothGattService=gatt.getService(UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb"));
-                BluetoothGattCharacteristic writeCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
-                BluetoothGattCharacteristic readCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
+                writeCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
+                readCharacteristic=bluetoothGattService.getCharacteristic(UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb"));
                 if((writeCharacteristic.getProperties() & (BluetoothGattCharacteristic.PROPERTY_WRITE +
                         BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) ==0) {
                     Log.i(TAG, "onServicesDiscovered properties: cannot read and write");
@@ -382,8 +429,20 @@ public class DeviceScanActivity extends AppCompatActivity {
                 else{
                     Log.i(TAG, "onServicesDiscovered properties: can read and write");
                 }
-                writeCharacteristic.setValue("999".getBytes());
-                gatt.writeCharacteristic(writeCharacteristic);
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+                bleCommand="o";
+                writeCharacteristic.setValue(bleCommand.getBytes());
+                if(!gatt.writeCharacteristic(writeCharacteristic)){
+                    Log.i(TAG,"write fail");
+                }
+                else{
+                    Log.i(TAG,"write started, len="+bleCommand.getBytes().length);
+                }
+                setButton(gatt);
                 gatt.readCharacteristic(readCharacteristic);
                 gatt.setCharacteristicNotification(readCharacteristic,true);
 
@@ -391,7 +450,21 @@ public class DeviceScanActivity extends AppCompatActivity {
                 Log.i(TAG, "onServicesDiscovered received: " + status);
             }
         }
-
+        private void setButton(BluetoothGatt gatt){
+            ((MaterialButton)findViewById(R.id.kickboard_button)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bleCommand="o";
+                    writeCharacteristic.setValue(bleCommand.getBytes());
+                    if(!gatt.writeCharacteristic(writeCharacteristic)){
+                        Log.i(TAG,"write fail");
+                    }
+                    else{
+                        Log.i(TAG,"write started, len="+bleCommand.getBytes().length);
+                    }
+                }
+            });
+        }
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
@@ -401,6 +474,9 @@ public class DeviceScanActivity extends AppCompatActivity {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
+            if(status != BluetoothGatt.GATT_SUCCESS) {
+                Log.i(TAG, "onCharacteristicWrite : write fail");
+            }
             Log.i(TAG, "onCharacteristicWrite : " + characteristic.getStringValue(0));
         }
 
@@ -410,6 +486,7 @@ public class DeviceScanActivity extends AppCompatActivity {
             Log.i(TAG, "onCharacteristicChanged : " +characteristic.getValue()[0]);
         }
     };
+
 
     static class ViewHolder {
         TextView deviceName;
