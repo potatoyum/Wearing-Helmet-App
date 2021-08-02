@@ -2,6 +2,7 @@ package com.example.wearinghelmetapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.content.pm.PackageManager;
 import android.widget.Button;
@@ -19,7 +20,9 @@ public class ScanActivity extends Activity implements DecoratedBarcodeView.Torch
     private Boolean switchFlashlightButtonCheck;
     private ImageButton switchFlashlightBtn;
     private MaterialButton ownHelmetButton;
+
     public static final int ALREADY_HAS=9;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +31,14 @@ public class ScanActivity extends Activity implements DecoratedBarcodeView.Torch
 
         backProgressCloseHandler = new BackProgressCloseHandler(this);
 
+        Log.d("onActivityResult", "시작2");
+
         switchFlashlightBtn = (ImageButton)findViewById(R.id.flashlight_btn);
         ownHelmetButton=(MaterialButton)findViewById(R.id.OwnHelmetBtn);
         ownHelmetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("onActivityResult", "플래시");
                 setResult(ALREADY_HAS);
                 finish();
             }

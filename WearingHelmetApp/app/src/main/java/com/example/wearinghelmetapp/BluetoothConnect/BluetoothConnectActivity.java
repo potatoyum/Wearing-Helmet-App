@@ -1,5 +1,6 @@
 package com.example.wearinghelmetapp.BluetoothConnect;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -44,14 +45,21 @@ public class BluetoothConnectActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
     /**
      * 블루투스로 보관함 연결 후 연결 해제 요청을 하는 메소드를 작성해주세요
      * 에러가 발생한 경우는 OPEN_ERROR를 리턴하면 됩니다.
      */
     public static final int OPEN_SUCCESS=1,OPEN_ERROR=0;
     protected int requestOpenCase(String moduleName){
-        //TODO requestOpenCase 작성(김미주)
-
+        Intent scanIntent = new Intent(getApplicationContext(), DeviceScanActivity.class);
+        scanIntent.putExtra(DeviceScanActivity.EXTRAS_DEVICE_ADDRESS, moduleName); // 인텐트로 스캔액티비티로 값 넘김
+        startActivity(scanIntent);
         return OPEN_SUCCESS;
     }
     /**
