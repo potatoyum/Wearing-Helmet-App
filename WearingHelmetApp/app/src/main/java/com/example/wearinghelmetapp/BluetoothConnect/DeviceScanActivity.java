@@ -51,11 +51,12 @@ public class DeviceScanActivity extends AppCompatActivity {
     private boolean mScanning;
     private Handler mHandler;
     private String mDeviceAddr; //스캔한 MAC 주소
+    private String bleCommand;
 
     private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 50000;
-    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS",BLE_COMMAND="BLE_COMMAND";
     private final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -68,7 +69,7 @@ public class DeviceScanActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         mDeviceAddr = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS); //qr 인식한 mac 주소
-
+        bleCommand=intent.getStringExtra(BLE_COMMAND);
         Log.d("aaa",mDeviceAddr.toString());
 
 
@@ -278,6 +279,12 @@ public class DeviceScanActivity extends AppCompatActivity {
         }
     }
 */
+    private boolean alreadySend;
+    private void sendCommandToBLE(String mDeviceAddr,String bleCommand){
+        if(!alreadySend){
+
+        }
+    }
     // Device scan callback.
     private ScanCallback mLeScanCallback =
             new ScanCallback() {
@@ -303,19 +310,9 @@ public class DeviceScanActivity extends AppCompatActivity {
                             if(result.getDevice().getName() != null){
                                 Log.d("aaa",result.getDevice().getName().toString());
                             }
-
-                            if(result.getDevice().getAddress().toString().equals("7C:AB:60:01:B7:05")){
-
-                                //final BluetoothDevice device = device;
-                                if (result.getDevice() == null) return;
-                                final Intent intent = new Intent(getApplicationContext(), DeviceControlActivity.class);
-                                intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, result.getDevice().getName());
-                                intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, result.getDevice().getAddress());
-                                if (!mScanning) {
-                                    mBluetoothAdapter.getBluetoothLeScanner().startScan(mLeScanCallback);
-                                    mScanning = false;
-                                }
-                                startActivity(intent);
+                            Log.d("processResult",result.getDevice().getName() + " "+result.getDevice().getAddress());
+                            if(result.getDevice().getAddress().toString().equals(mDeviceAddr)){
+                                sendCommandToBLE(mDeviceAddr,bleCommand);
                             }
 
                         }
