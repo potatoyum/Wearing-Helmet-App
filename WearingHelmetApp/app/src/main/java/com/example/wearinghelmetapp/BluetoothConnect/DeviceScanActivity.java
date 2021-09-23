@@ -70,11 +70,13 @@ public class DeviceScanActivity extends AppCompatActivity {
     private static final long SCAN_PERIOD = 50000;
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS",BLE_COMMAND="BLE_COMMAND";
     private final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+    private MaterialButton kickboardButton;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        kickboardButton =((MaterialButton)findViewById(R.id.kickboard_button));
         setContentView(R.layout.activity_connect);
         //getActionBar().setTitle(R.string.title_devices);
         mHandler = new Handler(Looper.myLooper());
@@ -457,6 +459,8 @@ public class DeviceScanActivity extends AppCompatActivity {
                     }
                 }
             });
+            ((MaterialButton)findViewById(R.id.kickboard_button)).setVisibility(View.VISIBLE);
+            ((MaterialButton)findViewById(R.id.kickboard_button)).invalidate();
         }
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
