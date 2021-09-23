@@ -44,6 +44,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.wearinghelmetapp.R;
+import com.example.wearinghelmetapp.ReturnActivity;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.IOException;
@@ -468,6 +469,9 @@ public class DeviceScanActivity extends AppCompatActivity {
                         Log.i(TAG, "write fail");
                     } else {
                         Log.i(TAG, "write started, len=" + bleCommand.getBytes().length);
+
+                        Intent returnActIntent = new Intent(getApplicationContext(), ReturnActivity.class);
+                        startActivity(returnActIntent);
                     }
                 }
             });
