@@ -222,8 +222,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
             for (final Detector.Recognition result : results) {
 
-              if(result.getId().equals("with helmet")&&result.getConfidence()>decision_value){
-                Log.i("DetectorActivity","DETECTED");
+              if(result.getTitle().equals("with helmet\r") && result.getConfidence()>0.5){
+                Log.i("DetectorActivity2","DETECTED");
                 setResult(DETECTED);
                 finish();
               }

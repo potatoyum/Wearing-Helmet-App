@@ -373,7 +373,6 @@ public class DeviceScanActivity extends AppCompatActivity {
                 setResult(RESULT_OK);
                 finish();
             }
-            Toast.makeText(getApplicationContext(),"received : "+characteristic.getValue()[0],Toast.LENGTH_SHORT).show();
         }
     };
 
