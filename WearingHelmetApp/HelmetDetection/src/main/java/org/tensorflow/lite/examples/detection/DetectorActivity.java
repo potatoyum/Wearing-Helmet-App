@@ -54,12 +54,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private static final Logger LOGGER = new Logger();
   //request, result code
   public static final int REQUEST_CODE=1001,DETECTED=1002,TIME_OUT=1003,ERROR=1004;
-  private static final double decision_value=0.93;
+  private static final double decision_value=0.5;
   public static final String TIME="TIME";
 
   // Configuration values for the prepackaged SSD model.
   private static final int TF_OD_API_INPUT_SIZE = 300;
-  private static final boolean TF_OD_API_IS_QUANTIZED = true;
+  private static final boolean TF_OD_API_IS_QUANTIZED = false;
   private static final String TF_OD_API_MODEL_FILE = "final_model.tflite";
   private static final String TF_OD_API_LABELS_FILE = "label.txt";
   private static final DetectorMode MODE = DetectorMode.TF_OD_API;

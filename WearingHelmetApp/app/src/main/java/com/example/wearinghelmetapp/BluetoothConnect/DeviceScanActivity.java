@@ -434,14 +434,6 @@ public class DeviceScanActivity extends AppCompatActivity {
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-                bleCommand="o";
-                writeCharacteristic.setValue(bleCommand.getBytes());
-                if(!gatt.writeCharacteristic(writeCharacteristic)){
-                    Log.i(TAG,"write fail");
-                }
-                else{
-                    Log.i(TAG,"write started, len="+bleCommand.getBytes().length);
-                }
                 setButton(gatt);
                 gatt.readCharacteristic(readCharacteristic);
                 gatt.setCharacteristicNotification(readCharacteristic,true);
@@ -454,13 +446,14 @@ public class DeviceScanActivity extends AppCompatActivity {
             ((MaterialButton)findViewById(R.id.kickboard_button)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    bleCommand="o";
                     writeCharacteristic.setValue(bleCommand.getBytes());
                     if(!gatt.writeCharacteristic(writeCharacteristic)){
                         Log.i(TAG,"write fail");
                     }
                     else{
                         Log.i(TAG,"write started, len="+bleCommand.getBytes().length);
+                        Toast.makeText(getApplicationContext(),"onCharacteristicWrite : " +bleCommand.getBytes().length
+                                ,Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -484,6 +477,7 @@ public class DeviceScanActivity extends AppCompatActivity {
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
             Log.i(TAG, "onCharacteristicChanged : " +characteristic.getValue()[0]);
+            Toast.makeText(getApplicationContext(),"receiverd : "+characteristic.getValue()[0],Toast.LENGTH_SHORT).show();
         }
     };
 
