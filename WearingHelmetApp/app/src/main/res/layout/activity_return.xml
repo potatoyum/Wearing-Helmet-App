@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReturnActivity">
+
     <ImageView
         android:id="@+id/open_box"
         android:layout_width="wrap_content"
@@ -19,20 +20,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/returnPlease"
         android:textColor="@color/black"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/open_box"
-        app:layout_constraintVertical_bias="0.169"
-     />
+        app:layout_constraintTop_toBottomOf="@+id/open_box" />
 
     <ImageView
+        android:id="@+id/iv_warning"
         android:layout_width="80dp"
         android:layout_height="80dp"
-
         android:layout_marginTop="120dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -48,7 +47,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/open_box"
-        app:layout_constraintVertical_bias="0.8"/>
+        app:layout_constraintTop_toBottomOf="@+id/iv_warning" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
