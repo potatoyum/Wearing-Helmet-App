@@ -63,12 +63,12 @@ public class DeviceScanActivity extends AppCompatActivity {
     private boolean mScanning;
     private Handler mHandler;
     private String mDeviceAddr; //스캔한 MAC 주소
-    private String bleCommand;
+    private String bleCommand,bleReceive;
 
     private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 50000;
-    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS",BLE_COMMAND="BLE_COMMAND";
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS",BLE_COMMAND="BLE_COMMAND",BLE_RECEIVE="BLE_RECEIVE_COMMAND";
     private final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private MaterialButton kickboardButton;
 
@@ -84,6 +84,7 @@ public class DeviceScanActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         mDeviceAddr = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS); //qr 인식한 mac 주소
         bleCommand=intent.getStringExtra(BLE_COMMAND);
+        bleReceive=intent.getStringExtra(BLE_RECEIVE);
         Log.d("aaa",mDeviceAddr.toString());
 
 
@@ -328,8 +329,8 @@ public class DeviceScanActivity extends AppCompatActivity {
                     }
                     else{
                         Log.i(TAG,"write started, len="+bleCommand.getBytes().length);
-                        Toast.makeText(getApplicationContext(),"onCharacteristicWrite : " +bleCommand.getBytes().length
-                                ,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"onCharacteristicWrite : " +bleCommand.getBytes().length
+//                                ,Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -360,14 +361,18 @@ public class DeviceScanActivity extends AppCompatActivity {
             if(status != BluetoothGatt.GATT_SUCCESS) {
                 Log.i(TAG, "onCharacteristicWrite : write fail");
             }
-            Log.i(TAG, "onCharacteristicWrite : " + characteristic.getStringValue(0));
+            Log.i(TAG, "onCharacteristicWrite : " + new String(characteristic.getValue()));
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
-            Log.i(TAG, "onCharacteristicChanged : " +characteristic.getValue()[0]);
-            Toast.makeText(getApplicationContext(),"receiverd : "+characteristic.getValue()[0],Toast.LENGTH_SHORT).show();
+            String receivedMsg=new String(characteristic.getValue());
+            Log.i(TAG, "onCharacteristicChanged : " +receivedMsg);
+            if(receivedMsg.equals(bleReceive)){
+                setResult(RESULT_OK);
+                finish();
+            }
         }
     };
 
