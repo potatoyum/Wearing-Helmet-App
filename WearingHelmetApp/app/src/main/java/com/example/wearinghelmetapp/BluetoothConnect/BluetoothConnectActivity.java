@@ -57,11 +57,7 @@ public class BluetoothConnectActivity extends AppCompatActivity {
      */
     public static final int OPEN_SUCCESS=1,OPEN_ERROR=0;
     protected int requestOpenCase(String moduleName){
-        Intent scanIntent = new Intent(getApplicationContext(), DeviceScanActivity.class);
-        scanIntent.putExtra(DeviceScanActivity.EXTRAS_DEVICE_ADDRESS, moduleName); // 인텐트로 스캔액티비티로 값 넘김
-        scanIntent.putExtra(DeviceScanActivity.BLE_COMMAND, "^");
-        scanIntent.putExtra(DeviceScanActivity.BLE_RECEIVE,"get\n");
-        startActivity(scanIntent);
+
         return OPEN_SUCCESS;
     }
     /**

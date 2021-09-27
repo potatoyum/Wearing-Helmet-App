@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -321,12 +322,12 @@ public class DeviceScanActivity extends AppCompatActivity {
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-                writeCharacteristic.setValue(bleCommand.getBytes());
-                if (!gatt.writeCharacteristic(writeCharacteristic)) {
-                    Log.i(TAG, "write fail");
-                } else {
-                    Log.i(TAG, "write started, len=" + bleCommand.getBytes().length);
-                }
+//                writeCharacteristic.setValue(bleCommand.getBytes());
+//                if (!gatt.writeCharacteristic(writeCharacteristic)) {
+//                    Log.i(TAG, "write fail");
+//                } else {
+//                    Log.i(TAG, "write started, len=" + bleCommand.getBytes().length);
+//                }
                 setButton(gatt);
                 gatt.readCharacteristic(readCharacteristic);
                 gatt.setCharacteristicNotification(readCharacteristic, true);
@@ -345,9 +346,9 @@ public class DeviceScanActivity extends AppCompatActivity {
                         Log.i(TAG, "write fail");
                     } else {
                         Log.i(TAG, "write started, len=" + bleCommand.getBytes().length);
-
-                        Intent returnActIntent = new Intent(getApplicationContext(), ReturnActivity.class);
-                        startActivity(returnActIntent);
+                        gatt.disconnect();
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 }
             });
@@ -358,6 +359,7 @@ public class DeviceScanActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    ((ProgressBar)findViewById(R.id.connect_progress_bar)).setVisibility(View.INVISIBLE);
                                     ((MaterialButton)findViewById(R.id.kickboard_button)).setVisibility(View.VISIBLE);
                                     ((MaterialButton)findViewById(R.id.kickboard_button)).invalidate();
                                 }
